@@ -1,24 +1,38 @@
 package com.DesignPatterns.models;
 
-public class Usuario_set_get {
+public class UsuarioDTO {
     private int id;
     private String nombre;
     private String apellido;
     private String email;
     private String contra;
     private String fotoPerfil;
-    private int puntaje;
+    private int exp;
 
-
-    public Usuario_set_get(int id, String nombre, String apellido, String email, String contra, String fotoPerfil) {
+    //para query
+    public UsuarioDTO(int id, String nombre, String apellido, String email, String contra, String fotoPerfil, int exp) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.contra = contra;
         this.fotoPerfil = fotoPerfil;
+        this.exp = exp;
     }
-    public Usuario_set_get(String nombre, String apellido, String email, String contra, String fotoPerfil) {
+
+
+    //para updates
+    public UsuarioDTO(String nombre, String apellido, String email, String contra, String fotoPerfil, int exp) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.contra = contra;
+        this.fotoPerfil = fotoPerfil;
+        this.exp = exp;
+    }
+
+    //para registrar
+    public UsuarioDTO(String nombre, String apellido, String email, String contra, String fotoPerfil) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
@@ -66,19 +80,19 @@ public class Usuario_set_get {
         this.contra = contra;
     }
 
-    public int getPuntaje() {
-        return puntaje;
-    }
-
-    public void setPuntaje(int puntaje) {
-        this.puntaje = puntaje;
-    }
-
     public String getFotoPerfil() {
         return fotoPerfil;
     }
 
     public void setFotoPerfil(String fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
     }
 }

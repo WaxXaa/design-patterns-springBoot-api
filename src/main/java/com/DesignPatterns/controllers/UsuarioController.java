@@ -1,6 +1,6 @@
 package com.DesignPatterns.controllers;
 
-import com.DesignPatterns.models.Usuario_set_get;
+import com.DesignPatterns.models.UsuarioDTO;
 import com.DesignPatterns.services.UsuarioService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,12 +12,12 @@ import java.util.List;
 @RestController
 public class UsuarioController {
     @GetMapping("/users/all")
-    public List<Usuario_set_get> obtenerUsuarios() {
+    public List<UsuarioDTO> obtenerUsuarios() {
         return new UsuarioService().opbtenerUsuarios();
     }
 
     @PostMapping("/users/registrar")
-    public int registrarUsuario(@RequestBody Usuario_set_get usuario) {
+    public int registrarUsuario(@RequestBody UsuarioDTO usuario) {
         return new UsuarioService().crearUsuario(usuario);
     }
 }

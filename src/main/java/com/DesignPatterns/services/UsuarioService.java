@@ -1,7 +1,7 @@
 package com.DesignPatterns.services;
 
 import com.DesignPatterns.Conexion.Conexion;
-import com.DesignPatterns.models.Usuario_set_get;
+import com.DesignPatterns.models.UsuarioDTO;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,20 +15,21 @@ public class UsuarioService {
     public UsuarioService() {
         conn = Conexion.connectar();
     }
-    public List<Usuario_set_get> opbtenerUsuarios() {
+    public List<UsuarioDTO> opbtenerUsuarios() {
         try {
             Statement stm = conn.createStatement();
             String query = "SELECT * FROM USUARIOS";
-            List<Usuario_set_get>listaUsuarios = new ArrayList<>();
+            List<UsuarioDTO>listaUsuarios = new ArrayList<>();
             ResultSet res = stm.executeQuery(query);
             while (res.next()) {
-                Usuario_set_get usuario = new Usuario_set_get(
+                UsuarioDTO usuario = new UsuarioDTO(
                         res.getInt("id_usuario"),
                         res.getString("nombre"),
                         res.getString("apellido"),
                         res.getString("email"),
                         res.getString("contra"),
-                        res.getString("foto_perfil"));
+                        res.getString("foto_perfil"),
+                        res.getInt("exp"));
 
                 listaUsuarios.add(usuario);
 
@@ -43,7 +44,7 @@ public class UsuarioService {
         return null;
 
     }
-    public int crearUsuario(Usuario_set_get usuario) {
+    public int crearUsuario(UsuarioDTO usuario) {
         int resultado = 0;
         try {
             Statement stm = conn.createStatement();
@@ -52,7 +53,7 @@ public class UsuarioService {
                     usuario.getApellido() + "," +
                     usuario.getEmail() + "," +
                     usuario.getContra() + "," +
-                    1 + ");";
+                    usuario.getFotoPerfil()+");";
             resultado = stm.executeUpdate(query);
             return resultado;
         } catch (SQLException e) {
@@ -61,6 +62,40 @@ public class UsuarioService {
             int i = 1;
         }
 
+        return resultado;
+    }
+    public int actualizarUsuario(UsuarioDTO usuario) {
+        int resultado = 0;
+        try {
+            Statement stm = conn.createStatement();
+            String query = "CALL actualizar_usuario(" +
+                    usuario.getNombre() + "," +
+                    usuario.getApellido() + "," +
+                    usuario.getEmail() + "," +
+                    usuario.getContra() + "," +
+                    usuario.getFotoPerfil()+
+                    usuario.getExp()+");";
+            resultado = stm.executeUpdate(query);
+            return resultado;
+        } catch (SQLException e){
+            int i = 1;
+        }  catch (Exception e){
+            int i = 1;
+        }
+        return resultado;
+    }
+    public int eliminarUsuario(int id) {
+        int resultado = 0;
+        try {
+            Statement stm = conn.createStatement();
+            String query = "CALL eliminar_usuario("+id+");";
+            return stm.executeUpdate(query);
+
+        } catch (SQLException e){
+            int i = 1;
+        } catch (Exception e) {
+            int i = 1;
+        }
         return resultado;
     }
 }
