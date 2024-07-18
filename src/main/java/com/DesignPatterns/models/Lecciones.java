@@ -1,35 +1,35 @@
 package com.DesignPatterns.models;
 
-public class LeccionesDTO {
+public class Lecciones {
     private int id;
     private String nombre;
-    private String descricion;
+    private String descripcion;
     private String imagen;
     private String video;
-    private NivelesDTO nivel;
+    private Niveles nivel;
 
-    public LeccionesDTO(int id, String nombre,String descricion, String imagen, String video, NivelesDTO nivel) {
+    public Lecciones(int id, String nombre, String descripcion, String imagen, String video, Niveles nivel) {
         this.id = id;
         this.nombre = nombre;
-        this.descricion = descricion;
+        this.descripcion = descripcion;
         this.imagen = imagen;
         this.video = video;
         this.nivel = nivel;
     }
-    public LeccionesDTO( String nombre,String descricion, String imagen, String video, NivelesDTO nivel) {
+    public Lecciones(String nombre, String descricion, String imagen, String video, Niveles nivel) {
         this.nombre = nombre;
-        this.descricion = descricion;
+        this.descripcion = descripcion;
         this.imagen = imagen;
         this.video = video;
         this.nivel = nivel;
     }
 
-    public String getDescricion() {
-        return descricion;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescricion(String descricion) {
-        descricion = descricion;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getNombre() {
@@ -64,11 +64,11 @@ public class LeccionesDTO {
         this.video = video;
     }
 
-    public NivelesDTO getNivel() {
+    public Niveles getNivel() {
         return nivel;
     }
 
-    public void setNivel(NivelesDTO nivel) {
+    public void setNivel(Niveles nivel) {
         this.nivel = nivel;
     }
 }

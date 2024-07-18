@@ -1,6 +1,6 @@
 package com.DesignPatterns.models;
 
-public class UsuarioDTO {
+public class Usuario {
     private int id;
     private String nombre;
     private String apellido;
@@ -8,9 +8,9 @@ public class UsuarioDTO {
     private String contra;
     private String fotoPerfil;
     private int exp;
-
+    private int tipo;
     //para query
-    public UsuarioDTO(int id, String nombre, String apellido, String email, String contra, String fotoPerfil, int exp) {
+    public Usuario(int id, String nombre, String apellido, String email, String contra, String fotoPerfil, int exp, int tipo) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -18,11 +18,12 @@ public class UsuarioDTO {
         this.contra = contra;
         this.fotoPerfil = fotoPerfil;
         this.exp = exp;
+        this.tipo = tipo;
     }
 
 
     //para updates
-    public UsuarioDTO(String nombre, String apellido, String email, String contra, String fotoPerfil, int exp) {
+    public Usuario(String nombre, String apellido, String email, String contra, String fotoPerfil, int exp) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
@@ -32,7 +33,7 @@ public class UsuarioDTO {
     }
 
     //para registrar
-    public UsuarioDTO(String nombre, String apellido, String email, String contra, String fotoPerfil) {
+    public Usuario(String nombre, String apellido, String email, String contra, String fotoPerfil) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
