@@ -1,6 +1,7 @@
 package com.DesignPatterns.services;
 
 import com.DesignPatterns.Conexion.Conexion;
+import com.DesignPatterns.exceptions.DataBaseException;
 import com.DesignPatterns.models.Usuario;
 
 import java.sql.Connection;
@@ -15,7 +16,7 @@ public class UsuarioService {
 //    public UsuarioService() {
 //        conn = Conexion.connectar();
 //    }
-    public List<Usuario> obtenerUsuarios() {
+    public List<Usuario> obtenerUsuarios() throws Exception {
         try {
             conn = Conexion.connectar();
             assert conn != null;
@@ -39,17 +40,17 @@ public class UsuarioService {
             }
             return listaUsuarios;
 
-        } catch (SQLException e) {
-            int i = 1;
-        }catch (Exception e) {
-            int i = 1;
+        } catch (SQLException e){
+            throw new DataBaseException(e.getMessage());
         }
-        return null;
-
+        catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
-    public int crearUsuario(Usuario usuario) {
+    public int crearUsuario(Usuario usuario) throws Exception{
         int resultado = 0;
         try {
+            conn = Conexion.connectar();
             Statement stm = conn.createStatement();
             String query = "CALL crear_usuario(" +
                     usuario.getNombre() + "," +
@@ -59,16 +60,16 @@ public class UsuarioService {
                     usuario.getFotoPerfil()+","+
                     1+");";
             resultado = stm.executeUpdate(query);
+            conn.close();
             return resultado;
-        } catch (SQLException e) {
-            int i = 1;
-        } catch (Exception e) {
-            int i = 1;
+        }catch (SQLException e){
+            throw new DataBaseException(e.getMessage());
         }
-
-        return resultado;
+        catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
-    public int actualizarUsuario(Usuario usuario) {
+    public int actualizarUsuario(Usuario usuario) throws Exception {
         int resultado = 0;
         try {
             Statement stm = conn.createStatement();
@@ -82,27 +83,27 @@ public class UsuarioService {
             resultado = stm.executeUpdate(query);
             return resultado;
         } catch (SQLException e){
-            int i = 1;
-        }  catch (Exception e){
-            int i = 1;
+            throw new DataBaseException(e.getMessage());
         }
-        return resultado;
+        catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
-    public int eliminarUsuario(int id) {
+    public int eliminarUsuario(int idUsuario) throws Exception {
         int resultado = 0;
         try {
             Statement stm = conn.createStatement();
-            String query = "CALL eliminar_usuario("+id+");";
+            String query = "CALL eliminar_usuario("+idUsuario+");";
             return stm.executeUpdate(query);
 
         } catch (SQLException e){
-            int i = 1;
-        } catch (Exception e) {
-            int i = 1;
+            throw new DataBaseException(e.getMessage());
         }
-        return resultado;
+        catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
-    public Usuario obtenerUsuario(int idUsuario){
+  /*  public Usuario obtenerUsuario(int idUsuario){
         try {
             conn = Conexion.connectar();
             Statement stm = conn.createStatement();
@@ -114,5 +115,5 @@ public class UsuarioService {
     }
     public int iniciarSesion(String correo, String contra) {
 
-    }
+    }*/
 }

@@ -1,10 +1,8 @@
 package com.DesignPatterns.services;
 
 import com.DesignPatterns.Conexion.Conexion;
-import com.DesignPatterns.models.Etapas;
-import com.DesignPatterns.models.Niveles;
-import com.DesignPatterns.models.PreguntasDTO;
-import com.DesignPatterns.models.Usuario;
+import com.DesignPatterns.exceptions.DataBaseException;
+import com.DesignPatterns.models.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -17,7 +15,7 @@ import java.util.Map;
 
 public class JuegoService {
     Connection conn;
-    public List<Etapas> obtenerEtapas(){
+    public List<Etapas> obtenerEtapas() throws Exception{
         List<Etapas> listaEtapas = new ArrayList<>();
         try{
             conn = Conexion.connectar();
@@ -33,17 +31,16 @@ public class JuegoService {
                 );
                 listaEtapas.add(etapa);
             }
+            conn.close();
+            stm.close();
             return listaEtapas;
         }catch (SQLException e){
-            int i = 1;
+            throw new DataBaseException(e.getMessage());
         }catch (Exception e){
-            int i = 1;
+            throw new Exception(e.getMessage());
         }
-        return null;
     }
-    public List<Etapas> obtenerEtapasNiveles() {
-        Connection conn = null;
-
+    public List<Etapas> obtenerEtapasNiveles() throws Exception {
         try {
             conn = Conexion.connectar();
             assert conn != null;
@@ -72,28 +69,19 @@ public class JuegoService {
 
                 etapa.getNiveles().add(nivel);
             }
-
+            conn.close();
+            stm.close();
             return new ArrayList<>(etapasMap.values());
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new DataBaseException(e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            throw new Exception(e.getMessage());
         }
     }
 
 
-    public List<PreguntasDTO> obtenerPreguntas(int idNivel){
+    public List<PreguntasDTO> obtenerPreguntas(int idNivel) throws Exception{
         try {
             conn = Conexion.connectar();
             assert conn != null;
@@ -126,15 +114,20 @@ public class JuegoService {
                     pregunta.setId(idPregunta);
                     pregunta.setPregunta(res.getString("Pregunta"));
                     pregunta.setTipo(res.getInt("TipoPregunta"));
+                    pregunta.setFoto(res.getString("ImagenPregunta"));
+                    pregunta.setRespuestas(new ArrayList<>());
                 }
-
+                Respuesta respuesta = RespuestasFactory.crearRespuesta(res,idPregunta);
+                pregunta.getRespuestas().add(respuesta);
             }
+            conn.close();
+            stm.close();
+            return new ArrayList<>(preguntasMap.values());
         } catch (SQLException e) {
-
+            throw new DataBaseException(e.getMessage());
         } catch (Exception e){
-
+            throw new Exception(e.getMessage());
         }
-        return null;
     }
 
  /*   public List<Usuario> obtenerRanking(){}
