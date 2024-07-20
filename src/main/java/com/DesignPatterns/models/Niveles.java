@@ -55,11 +55,4 @@ public class Niveles {
         this.exp = exp;
     }
 
-    public Etapas getEtapa() {
-        return etapa;
-    }
-
-    public void setEtapa(Etapas etapa) {
-        this.etapa = etapa;
-    }
 }

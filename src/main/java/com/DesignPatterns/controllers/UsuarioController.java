@@ -6,10 +6,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class UsuarioController {
+    //prueba
+    @GetMapping("hello world")
+    public List<Usuario> helloW() {
+        List<Usuario> listPrueba = new ArrayList<>();
+        Usuario uPrueba = new Usuario("ale","mosq", "ejemplo@email.com", "pass", "img");
+        listPrueba.add(uPrueba);
+        return listPrueba;
+    }
+    @GetMapping("base")
+    public String conectarBase() {
+        try {
+            return new UsuarioService().conectar();
+        } catch (Exception e) {
+            return e.getMessage() + "error";
+        }
+    }
+    //prueba
     @GetMapping("/users/all")
     public ResponseEntity<List<Usuario>> obtenerUsuariosController() {
         try {
@@ -27,7 +45,7 @@ public class UsuarioController {
             if(resultado == 0) {throw new Exception("no se puedo actualizar el usuario");}
             return new ResponseEntity<String>("usuario registrado exitosamente", HttpStatus.CREATED);// http status 201
         }catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(e.getMessage()+ " no se registro",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @PutMapping("/user/actualizar")

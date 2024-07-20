@@ -10,6 +10,7 @@ public class Usuario {
     private int exp;
     private int tipo;
     //para query
+    public Usuario(){}
     public Usuario(int id, String nombre, String apellido, String email, String contra, String fotoPerfil, int exp, int tipo) {
         this.id = id;
         this.nombre = nombre;

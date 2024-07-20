@@ -5,18 +5,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexion {
-    static public Connection connectar() {
+    static public Connection connectar() throws Exception{
         try {
             Class.forName("org.mariadb.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mariadb://localhost:3306/juegos_seniales", "root", "alejandro00");
+            return DriverManager.getConnection("jdbc:mariadb://0.0.0.0:3306/juegos_senas", "root", "alejandro00");
         } catch (ClassNotFoundException e) {
-            int x = 1;
+            throw new Exception(e.getMessage() + " no se pudo cargar el driver ");
         } catch (SQLException e) {
-            int x = 1;
+            throw new Exception(e.getMessage());
         }
         catch (Exception e) {
-            int x = 1;
+            throw new Exception(e.getMessage());
         }
-        return null;
     }
 }

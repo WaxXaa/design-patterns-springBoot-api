@@ -13,6 +13,23 @@ import java.util.List;
 
 public class UsuarioService {
     Connection conn;
+
+    public String conectar()  {
+        try {
+            int i = 0;
+            conn=Conexion.connectar();
+            if (conn == null) {
+                return "con esta null";
+            }
+            Statement stm = conn.createStatement();
+            i = stm.executeUpdate("INSERT INTO Etapas (nombre, descripcion) values ('etapa1','la primera');");
+
+
+            return "i     " + conn.getClientInfo() + " no esta null " ;
+        } catch (Exception e){
+            return e.getMessage() + "error service";
+        }
+    }
 //    public UsuarioService() {
 //        conn = Conexion.connectar();
 //    }
@@ -52,12 +69,12 @@ public class UsuarioService {
         try {
             conn = Conexion.connectar();
             Statement stm = conn.createStatement();
-            String query = "CALL crear_usuario(" +
-                    usuario.getNombre() + "," +
-                    usuario.getApellido() + "," +
-                    usuario.getEmail() + "," +
-                    usuario.getContra() + "," +
-                    usuario.getFotoPerfil()+","+
+            String query = "CALL crear_usuario('" +
+                    usuario.getNombre() + "','" +
+                    usuario.getApellido() + "','" +
+                    usuario.getEmail() + "','" +
+                    usuario.getContra() + "','" +
+                    usuario.getFotoPerfil()+"',"+
                     1+");";
             resultado = stm.executeUpdate(query);
             conn.close();
