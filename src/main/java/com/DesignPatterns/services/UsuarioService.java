@@ -35,7 +35,7 @@ public class UsuarioService {
             conn = Conexion.connectar();
             assert conn != null;
             Statement stm = conn.createStatement();
-            String query = "SELECT * FROM USUARIOS";
+            String query = "SELECT * FROM Usuarios";
             List<Usuario>listaUsuarios = new ArrayList<>();
             ResultSet res = stm.executeQuery(query);
             while (res.next()) {

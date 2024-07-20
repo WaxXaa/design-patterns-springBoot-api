@@ -4,8 +4,8 @@ WORKDIR /app
 
 RUN ./gradlew clean build
 
-COPY build/libs/DesignPatterns-Game-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY build/libs/DesignPatterns-Game-*.jar /app/app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app/tu-proyecto.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
