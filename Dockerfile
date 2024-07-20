@@ -2,16 +2,7 @@ FROM openjdk:20
 
 WORKDIR /app
 
-COPY gradlew /app/
-COPY gradle /app/gradle
-COPY build.gradle /app/
-COPY settings.gradle /app/
-
-COPY src /app/src
-
 RUN ./gradlew clean build
-RUN cd build/libs
-RUN ls
 
 COPY build/libs/DesignPatterns-Game-0.0.1-SNAPSHOT.jar /app/app.jar
 
