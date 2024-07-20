@@ -4,10 +4,7 @@ import com.DesignPatterns.Conexion.Conexion;
 import com.DesignPatterns.exceptions.DataBaseException;
 import com.DesignPatterns.models.Usuario;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,17 +100,73 @@ public class UsuarioService {
             throw new Exception(e.getMessage());
         }
     }
-  /*  public Usuario obtenerUsuario(int idUsuario){
-        try {
-            conn = Conexion.connectar();
-            Statement stm = conn.createStatement();
-            String query = "SELECT * FROM USUARIO WHERE id_usuario = " + idUsuario + ";";
-
-        }catch (SQLException e){
-
-        } catch (Exception e){}
+    public Usuario obtenerUsuario(int idUsuario) throws Exception {
+        try (Connection conn = Conexion.connectar();
+             Statement stm = conn.createStatement()) {
+            String query = "SELECT * FROM USUARIOS WHERE id_usuario = " + idUsuario + ";";
+            ResultSet res = stm.executeQuery(query);
+            if (res.next()) {
+                return new Usuario(
+                        res.getInt("id_usuario"),
+                        res.getString("nombre"),
+                        res.getString("apellido"),
+                        res.getString("email"),
+                        res.getString("contra"),
+                        res.getString("foto_perfil"),
+                        res.getInt("exp"),
+                        res.getInt("tipo"));
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new DataBaseException(e.getMessage());
+        }
     }
-    public int iniciarSesion(String correo, String contra) {
 
-    }*/
+    public int iniciarSesion(String correo, String contra) throws DataBaseException {
+        int cod_usuario = -1;
+        String query = "{CALL IniciarSesion(?, ?, ?)}";
+
+        try (Connection conn = Conexion.connectar();
+             CallableStatement stmt = conn.prepareCall(query)) {
+
+            stmt.setString(1, correo);
+            stmt.setString(2, contra);
+            stmt.registerOutParameter(3, java.sql.Types.INTEGER);
+
+            stmt.execute();
+
+            cod_usuario = stmt.getInt(3);
+
+        } catch (SQLException e) {
+            throw new DataBaseException(e.getMessage());
+        }
+
+        return cod_usuario;
+    }
+
+}
+    public List<Usuario> listarRanking() throws DataBaseException {
+        List<Usuario> usuarios = new ArrayList<>();
+        String query = "SELECT nombre, apellido, foto_perfil, exp FROM Usuarios ORDER BY exp DESC LIMIT 10";
+
+        try (Connection conn = Conexion.connectar();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet res = stmt.executeQuery()) {
+
+            while (res.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setNombre(res.getString("nombre"));
+                usuario.setApellido(res.getString("apellido"));
+                usuario.setFotoPerfil(res.getString("foto_perfil"));
+                usuario.setExp(res.getInt("exp"));
+                usuarios.add(usuario);
+            }
+
+        } catch (SQLException e) {
+            throw new DataBaseException(e.getMessage());
+        }
+
+        return usuarios;
+    }
 }
