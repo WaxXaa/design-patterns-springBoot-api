@@ -1,5 +1,7 @@
 package com.DesignPatterns.Conexion;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,7 +10,10 @@ public class Conexion {
     static public Connection connectar() throws Exception{
         try {
             Class.forName("org.mariadb.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mariadb://0.0.0.0:3306/juegos_senas", "root", "alejandro00");
+            String url = System.getenv("DB_URL");
+            String user = System.getenv("DB_USER_NAME");
+            String pass = System.getenv("DB_PASSWORD");
+            return DriverManager.getConnection(url,user, pass);
         } catch (ClassNotFoundException e) {
             throw new Exception(e.getMessage() + " no se pudo cargar el driver ");
         } catch (SQLException e) {

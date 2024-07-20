@@ -107,6 +107,7 @@ public class UsuarioService {
     public int eliminarUsuario(int idUsuario) throws Exception {
         int resultado = 0;
         try {
+            conn = Conexion.connectar();
             Statement stm = conn.createStatement();
             String query = "CALL eliminar_usuario("+idUsuario+");";
             return stm.executeUpdate(query);
@@ -143,12 +144,12 @@ public class UsuarioService {
         }
     }
 
-    public int iniciarSesion(String correo, String contra) throws DataBaseException {
+    public int iniciarSesion(String correo, String contra) throws Exception {
         int cod_usuario = -1;
         String query = "{CALL IniciarSesion(?, ?, ?)}";
 
-        try (Connection conn = Conexion.connectar();
-             CallableStatement stmt = conn.prepareCall(query)) {
+        try {Connection conn = Conexion.connectar();
+             CallableStatement stmt = conn.prepareCall(query);
 
             stmt.setString(1, correo);
             stmt.setString(2, contra);
@@ -157,19 +158,21 @@ public class UsuarioService {
             stmt.execute();
 
             cod_usuario = stmt.getInt(3);
-
+            conn.close();
         } catch (SQLException e) {
             throw new DataBaseException(e.getMessage());
+        } catch (Exception e) {
+            throw new Exception(e);
         }
 
         return cod_usuario;
     }
 
-    public List<Usuario> listarRanking() throws DataBaseException {
+    public List<Usuario> listarRanking() throws Exception {
         List<Usuario> usuarios = new ArrayList<>();
         String query = "SELECT * FROM Usuarios ORDER BY exp DESC LIMIT 10";
 
-        try (Connection conn = Conexion.connectar()) {
+        try {Connection conn = Conexion.connectar();
             assert conn != null;
             try (PreparedStatement stmt = conn.prepareStatement(query);
                  ResultSet res = stmt.executeQuery()) {
@@ -186,6 +189,7 @@ public class UsuarioService {
                             res.getInt("tipo"));
                     usuarios.add(usuario);
                 }
+                conn.close();
 
             }
         } catch (SQLException e) {

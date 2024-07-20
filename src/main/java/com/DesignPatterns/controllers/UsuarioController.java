@@ -81,7 +81,7 @@ public class UsuarioController {
             } else {
                 return new ResponseEntity<>("Correo o contraseña incorrectos.", HttpStatus.UNAUTHORIZED);
             }
-        } catch (DataBaseException e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -105,7 +105,7 @@ public class UsuarioController {
         try {
             List<Usuario> usuarios = new UsuarioService().listarRanking();
             return new ResponseEntity<>(usuarios, HttpStatus.OK);
-        } catch (DataBaseException e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
