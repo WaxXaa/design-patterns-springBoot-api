@@ -48,6 +48,7 @@ public class UsuarioService {
         int resultado = 0;
         try {
             conn = Conexion.connectar();
+            assert conn != null;
             Statement stm = conn.createStatement();
             String query = "CALL crear_usuario(" +
                     usuario.getNombre() + "," +
@@ -101,22 +102,24 @@ public class UsuarioService {
         }
     }
     public Usuario obtenerUsuario(int idUsuario) throws Exception {
-        try (Connection conn = Conexion.connectar();
-             Statement stm = conn.createStatement()) {
-            String query = "SELECT * FROM USUARIOS WHERE id_usuario = " + idUsuario + ";";
-            ResultSet res = stm.executeQuery(query);
-            if (res.next()) {
-                return new Usuario(
-                        res.getInt("id_usuario"),
-                        res.getString("nombre"),
-                        res.getString("apellido"),
-                        res.getString("email"),
-                        res.getString("contra"),
-                        res.getString("foto_perfil"),
-                        res.getInt("exp"),
-                        res.getInt("tipo"));
-            } else {
-                return null;
+        try (Connection conn = Conexion.connectar()) {
+            assert conn != null;
+            try (Statement stm = conn.createStatement()) {
+                String query = "SELECT * FROM USUARIOS WHERE id_usuario = " + idUsuario + ";";
+                ResultSet res = stm.executeQuery(query);
+                if (res.next()) {
+                    return new Usuario(
+                            res.getInt("id_usuario"),
+                            res.getString("nombre"),
+                            res.getString("apellido"),
+                            res.getString("email"),
+                            res.getString("contra"),
+                            res.getString("foto_perfil"),
+                            res.getInt("exp"),
+                            res.getInt("tipo"));
+                } else {
+                    return null;
+                }
             }
         } catch (SQLException e) {
             throw new DataBaseException(e.getMessage());
@@ -150,19 +153,21 @@ public class UsuarioService {
         List<Usuario> usuarios = new ArrayList<>();
         String query = "SELECT nombre, apellido, foto_perfil, exp FROM Usuarios ORDER BY exp DESC LIMIT 10";
 
-        try (Connection conn = Conexion.connectar();
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet res = stmt.executeQuery()) {
+        try (Connection conn = Conexion.connectar()) {
+            assert conn != null;
+            try (PreparedStatement stmt = conn.prepareStatement(query);
+                 ResultSet res = stmt.executeQuery()) {
 
-            while (res.next()) {
-                Usuario usuario = new Usuario();
-                usuario.setNombre(res.getString("nombre"));
-                usuario.setApellido(res.getString("apellido"));
-                usuario.setFotoPerfil(res.getString("foto_perfil"));
-                usuario.setExp(res.getInt("exp"));
-                usuarios.add(usuario);
+                while (res.next()) {
+                    Usuario usuario = new Usuario();
+                    usuario.setNombre(res.getString("nombre"));
+                    usuario.setApellido(res.getString("apellido"));
+                    usuario.setFotoPerfil(res.getString("foto_perfil"));
+                    usuario.setExp(res.getInt("exp"));
+                    usuarios.add(usuario);
+                }
+
             }
-
         } catch (SQLException e) {
             throw new DataBaseException(e.getMessage());
         }
