@@ -1,5 +1,6 @@
 package com.DesignPatterns.controllers;
 
+import com.DesignPatterns.exceptions.DataBaseException;
 import com.DesignPatterns.models.Usuario;
 import com.DesignPatterns.services.UsuarioService;
 import org.springframework.http.HttpStatus;
@@ -50,4 +51,46 @@ public class UsuarioController {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/user/login")
+    public ResponseEntity<String> inicioUsuarioController(
+            @RequestParam("correo") String correo,
+            @RequestParam("contra") String contra) {
+
+        try {
+            int cod_usuario = new UsuarioService().iniciarSesion(correo, contra);
+            if (cod_usuario != -1) {
+                return new ResponseEntity<>("Usuario autenticado exitosamente. ID: " + cod_usuario, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Correo o contraseña incorrectos.", HttpStatus.UNAUTHORIZED);
+            }
+        } catch (DataBaseException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("user/obtenerUsuario/{idUsuario}")
+    public ResponseEntity<Usuario> obtenerUsuarioController(@PathVariable("idUsuario") int idUsuario) {
+        try {
+            Usuario usuario = new UsuarioService().obtenerUsuario(idUsuario);
+            if (usuario == null) {
+                throw new Exception("No se pudo obtener la información del usuario");
+            }
+            return new ResponseEntity<>(usuario, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>((Usuario) null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/Ranking")
+    public ResponseEntity<List<Usuario>> listarRanking() {
+        try {
+            List<Usuario> usuarios = new UsuarioService().listarRanking();
+            return new ResponseEntity<>(usuarios, HttpStatus.OK);
+        } catch (DataBaseException e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }
