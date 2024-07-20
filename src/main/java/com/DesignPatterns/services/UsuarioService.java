@@ -148,10 +148,9 @@ public class UsuarioService {
         return cod_usuario;
     }
 
-}
     public List<Usuario> listarRanking() throws DataBaseException {
         List<Usuario> usuarios = new ArrayList<>();
-        String query = "SELECT nombre, apellido, foto_perfil, exp FROM Usuarios ORDER BY exp DESC LIMIT 10";
+        String query = "SELECT * FROM Usuarios ORDER BY exp DESC LIMIT 10";
 
         try (Connection conn = Conexion.connectar()) {
             assert conn != null;
@@ -159,11 +158,15 @@ public class UsuarioService {
                  ResultSet res = stmt.executeQuery()) {
 
                 while (res.next()) {
-                    Usuario usuario = new Usuario();
-                    usuario.setNombre(res.getString("nombre"));
-                    usuario.setApellido(res.getString("apellido"));
-                    usuario.setFotoPerfil(res.getString("foto_perfil"));
-                    usuario.setExp(res.getInt("exp"));
+                    Usuario usuario = new Usuario(
+                            res.getInt("id_usuario"),
+                            res.getString("nombre"),
+                            res.getString("apellido"),
+                            res.getString("email"),
+                            res.getString("contra"),
+                            res.getString("foto_perfil"),
+                            res.getInt("exp"),
+                            res.getInt("tipo"));
                     usuarios.add(usuario);
                 }
 
