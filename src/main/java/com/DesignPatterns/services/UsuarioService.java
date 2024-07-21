@@ -87,14 +87,13 @@ public class UsuarioService {
     public int actualizarUsuario(Usuario usuario) throws Exception {
         int resultado = 0;
         try {
+            conn = Conexion.connectar();
             Statement stm = conn.createStatement();
             String query = "CALL actualizar_usuario(" +
-                    usuario.getNombre() + "," +
-                    usuario.getApellido() + "," +
-                    usuario.getEmail() + "," +
-                    usuario.getContra() + "," +
-                    usuario.getFotoPerfil()+
-                    usuario.getExp()+");";
+                    usuario.getId() + ",'" +
+                    usuario.getNombre() + "','" +
+                    usuario.getApellido() + "','" +
+                    usuario.getFotoPerfil()+"');";
             resultado = stm.executeUpdate(query);
             return resultado;
         } catch (SQLException e){
