@@ -70,12 +70,10 @@ public class UsuarioController {
         }
     }
     @PostMapping("/users/login")
-    public ResponseEntity<Usuario> inicioUsuarioController(
-            @RequestBody String correo,
-            @RequestBody String contra) {
+    public ResponseEntity<Usuario> inicioUsuarioController(@RequestBody Usuario usuario) {
 
         try {
-            Usuario usuario = new UsuarioService().iniciarSesion(correo, contra);
+            Usuario usuarioRes = new UsuarioService().iniciarSesion(usuario.getEmail(), usuario.getContra());
             if (usuario != null) {
                 return new ResponseEntity<>(usuario, HttpStatus.OK);
             } else {
