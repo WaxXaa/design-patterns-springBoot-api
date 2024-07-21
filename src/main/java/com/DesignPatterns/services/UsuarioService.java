@@ -144,28 +144,33 @@ public class UsuarioService {
         }
     }
 
-    public int iniciarSesion(String correo, String contra) throws Exception {
-        int cod_usuario = -1;
-        String query = "{CALL IniciarSesion(?, ?, ?)}";
+    public Usuario iniciarSesion(String correo, String contra) throws Exception {
+        String query = "CALL iniciar_sesion('"+ correo + "','"+ contra+"');";
 
-        try {Connection conn = Conexion.connectar();
-             CallableStatement stmt = conn.prepareCall(query);
-
-            stmt.setString(1, correo);
-            stmt.setString(2, contra);
-            stmt.registerOutParameter(3, java.sql.Types.INTEGER);
-
-            stmt.execute();
-
-            cod_usuario = stmt.getInt(3);
+        try {
+             Connection conn = Conexion.connectar();
+             Statement stm = conn.createStatement();
+             ResultSet res = stm.executeQuery(query);
+             if (res.getInt("mensaje") == 0) {
+                 return null;
+             }
             conn.close();
+             return new Usuario(
+                     res.getInt("id_usuario"),
+                     res.getString("nombre"),
+                     res.getString("apellido"),
+                     res.getString("email"),
+                     res.getString("contra"),
+                     res.getString("foto_perfil"),
+                     res.getInt("exp"),
+                     res.getInt("tipo")
+                 );
+
         } catch (SQLException e) {
             throw new DataBaseException(e.getMessage());
         } catch (Exception e) {
             throw new Exception(e);
         }
-
-        return cod_usuario;
     }
 
     public List<Usuario> listarRanking() throws Exception {

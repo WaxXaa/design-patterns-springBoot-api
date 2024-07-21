@@ -70,19 +70,19 @@ public class UsuarioController {
         }
     }
     @GetMapping("/user/login")
-    public ResponseEntity<String> inicioUsuarioController(
+    public ResponseEntity<Usuario> inicioUsuarioController(
             @RequestParam("correo") String correo,
             @RequestParam("contra") String contra) {
 
         try {
-            int cod_usuario = new UsuarioService().iniciarSesion(correo, contra);
-            if (cod_usuario != -1) {
-                return new ResponseEntity<>("Usuario autenticado exitosamente. ID: " + cod_usuario, HttpStatus.OK);
+            Usuario usuario = new UsuarioService().iniciarSesion(correo, contra);
+            if (usuario != null) {
+                return new ResponseEntity<>(usuario, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Correo o contraseña incorrectos.", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

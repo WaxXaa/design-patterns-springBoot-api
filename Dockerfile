@@ -1,5 +1,21 @@
 FROM openjdk:20
 
+
+
+VOLUME /tmp
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+
+
+
+
+
+
+
+
+
 #COPY gradlew /app/
 #COPY gradle /app/gradle
 #COPY build.gradle /app/
@@ -8,9 +24,9 @@ FROM openjdk:20
 #
 #
 #RUN ./gradlew clean build
-
-COPY build/libs/DesignPatterns-Game-*.jar /app/app.jar
-
-
-
-CMD ["java", "-jar", "/app/app.jar"]
+#
+#COPY build/libs/DesignPatterns-Game-*.jar /app/app.jar
+#
+#
+#
+#CMD ["java", "-jar", "/app/app.jar"]
