@@ -74,8 +74,8 @@ public class UsuarioController {
 
         try {
             Usuario usuarioRes = new UsuarioService().iniciarSesion(usuario.getEmail(), usuario.getContra());
-            if (usuario != null) {
-                return new ResponseEntity<>(usuario, HttpStatus.OK);
+            if (usuarioRes != null) {
+                return new ResponseEntity<>(usuarioRes, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
             }
