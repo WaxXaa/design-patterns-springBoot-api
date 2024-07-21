@@ -1,13 +1,14 @@
 package com.DesignPatterns.services;
 
 import com.DesignPatterns.models.Respuesta;
+import com.DesignPatterns.models.RespuestasDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RespuestasFactory {
-    public static Respuesta crearRespuesta(ResultSet res, int tipoPregunta) throws SQLException {
-        Respuesta respuesta = new Respuesta();
+    public static RespuestasDTO crearRespuesta(ResultSet res, int tipoPregunta) throws SQLException {
+        RespuestasDTO respuesta = new RespuestasDTO();
         respuesta.setId(res.getInt("IdRespuesta"));
         respuesta.setFoto(res.getString("ImagenRespuesta"));
          switch (tipoPregunta) {

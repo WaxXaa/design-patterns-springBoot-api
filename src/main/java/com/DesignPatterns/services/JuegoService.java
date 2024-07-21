@@ -117,7 +117,7 @@ public class JuegoService {
                     pregunta.setFoto(res.getString("ImagenPregunta"));
                     pregunta.setRespuestas(new ArrayList<>());
                 }
-                Respuesta respuesta = RespuestasFactory.crearRespuesta(res,idPregunta);
+                RespuestasDTO respuesta = RespuestasFactory.crearRespuesta(res,idPregunta);
                 pregunta.getRespuestas().add(respuesta);
             }
             conn.close();
