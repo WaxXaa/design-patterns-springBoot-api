@@ -211,4 +211,19 @@ public class UsuarioService {
 
         return usuarios;
     }
+    public void incrementar_Exp(int id) throws Exception{
+        try {
+            conn = Conexion.connectar();
+            assert conn != null;
+            Statement stm = conn.createStatement();
+            String query = "CALL incrementar_Exp('id');";
+            stm.executeUpdate(query);
+            conn.close();
+        }catch (SQLException e){
+            throw new DataBaseException(e.getMessage());
+        }
+        catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
 }

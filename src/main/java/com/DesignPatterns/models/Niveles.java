@@ -5,6 +5,7 @@ public class Niveles {
     private String nombre;
     private String Descripcion;
     private int exp;
+    private int etapa;
 
 
 
@@ -54,5 +55,10 @@ public class Niveles {
     public void setExp(int exp) {
         this.exp = exp;
     }
+
+    public int getEtapa() {return etapa;}
+
+    public void setEtapa(int etapa) {this.etapa = etapa;}
+
 
 }

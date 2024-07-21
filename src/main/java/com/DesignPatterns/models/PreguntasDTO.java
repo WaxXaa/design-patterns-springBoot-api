@@ -6,10 +6,19 @@ public class PreguntasDTO {
     private int id;
     private String pregunta;
     private String foto;
+    private int nivel;
     private int tipo;
     private List<Respuesta> respuestas;
 
 
+    public PreguntasDTO() {}
+    public PreguntasDTO(int idPregunta, String pregunta, String imagenUrl, int nivel, int tipo) {
+        this.id = idPregunta;
+        this.pregunta = pregunta;
+        this.foto = imagenUrl;
+        this.nivel = nivel;
+        this.tipo = tipo;
+    }
     public int getId() {
         return id;
     }
@@ -33,6 +42,10 @@ public class PreguntasDTO {
     public void setFoto(String foto) {
         this.foto = foto;
     }
+
+    public int getNivel() {return nivel;}
+
+    public void setNivel(int nivel) {this.nivel = nivel;}
 
     public int getTipo() {
         return tipo;
