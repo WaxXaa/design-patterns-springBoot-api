@@ -87,7 +87,7 @@ public class UsuarioController {
     }
 
 
-    @GetMapping("user/obtenerUsuario/{idUsuario}")
+    @PostMapping("user/obtenerUsuario/{idUsuario}")
     public ResponseEntity<Usuario> obtenerUsuarioController(@PathVariable("idUsuario") int idUsuario) {
         try {
             Usuario usuario = new UsuarioService().obtenerUsuario(idUsuario);
