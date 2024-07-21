@@ -49,7 +49,7 @@ public class UsuarioController {
             return new ResponseEntity<String>(e.getMessage()+ " no se registro",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping("/user/actualizar")
+    @PutMapping("/users/actualizar")
     public ResponseEntity<String> actualizarUsuarioController(@RequestBody Usuario usuario) {
         try {
             int resultado = new UsuarioService().actualizarUsuario(usuario);
@@ -59,7 +59,7 @@ public class UsuarioController {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @DeleteMapping("user/eliminar/{idUsuario}")
+    @DeleteMapping("users/eliminar/{idUsuario}")
     public ResponseEntity<String> eliminarUsuarioController(@PathVariable("idUsuario") int idUsuario) {
         try {
             int resultado = new UsuarioService().eliminarUsuario(idUsuario);
@@ -69,10 +69,10 @@ public class UsuarioController {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/user/login")
+    @PostMapping("/users/login")
     public ResponseEntity<Usuario> inicioUsuarioController(
-            @RequestParam("correo") String correo,
-            @RequestParam("contra") String contra) {
+            @RequestBody String correo,
+            @RequestBody String contra) {
 
         try {
             Usuario usuario = new UsuarioService().iniciarSesion(correo, contra);
@@ -87,7 +87,7 @@ public class UsuarioController {
     }
 
 
-    @PostMapping("user/obtenerUsuario/{idUsuario}")
+    @PostMapping("users/obtenerUsuario/{idUsuario}")
     public ResponseEntity<Usuario> obtenerUsuarioController(@PathVariable("idUsuario") int idUsuario) {
         try {
             Usuario usuario = new UsuarioService().obtenerUsuario(idUsuario);

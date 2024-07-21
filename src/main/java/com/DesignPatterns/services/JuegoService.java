@@ -130,7 +130,15 @@ public class JuegoService {
         }
     }
 
- /*   public List<Usuario> obtenerRanking(){}
-    public int actualizarExpUsuario(int idUsuario){}*/
+
+  /*  public int actualizarExpUsuario(int idUsuario){
+        try {
+
+        } catch (SQLException e) {
+            throw new Exception();
+        } catch (Exception e) {
+
+        }
+    }*/
 
 }
