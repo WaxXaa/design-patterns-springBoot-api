@@ -151,20 +151,29 @@ public class UsuarioService {
              Connection conn = Conexion.connectar();
              Statement stm = conn.createStatement();
              ResultSet res = stm.executeQuery(query);
-             if (res.getInt("mensaje") == 0) {
-                 return null;
-             }
+            if (res.next()) {
+                // Verifica si la columna 'resultado' tiene el valor 0
+                if (res.getMetaData().getColumnLabel(1).equals("mensaje") && res.getInt("mensaje") == 0) {
+                    conn.close();
+                    return null;
+                } else {
+                    // Procesa las columnas de la tabla 'Usuarios'
+                    Usuario u = new Usuario();
+                    u.setId(res.getInt("id_usuario"));
+                    u.setNombre(res.getString("nombre"));
+                    u.setApellido(res.getString("apellido"));
+                    u.setEmail(res.getString("email"));
+                    u.setContra(res.getString("contra"));
+                    u.setFotoPerfil(res.getString("foto_perfil"));
+                    u.setExp(res.getInt("exp"));
+                    u.setTipo(res.getInt("tipo"));
+                    conn.close();
+                    return u;
+                }
+            }
             conn.close();
-             return new Usuario(
-                     res.getInt("id_usuario"),
-                     res.getString("nombre"),
-                     res.getString("apellido"),
-                     res.getString("email"),
-                     res.getString("contra"),
-                     res.getString("foto_perfil"),
-                     res.getInt("exp"),
-                     res.getInt("tipo")
-                 );
+            return null;
+
 
         } catch (SQLException e) {
             throw new DataBaseException(e.getMessage());

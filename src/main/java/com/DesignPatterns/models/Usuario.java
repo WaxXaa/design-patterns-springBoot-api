@@ -97,4 +97,12 @@ public class Usuario {
     public void setExp(int exp) {
         this.exp = exp;
     }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
 }
