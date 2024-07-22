@@ -28,7 +28,7 @@ public class JuegoService {
                         res.getInt("id_etapa"),
                         res.getString("nombre"),
                         res.getString("descripcion"),
-                        res.getString("image_url")
+                        res.getString("imagen_url")
                 );
                 listaEtapas.add(etapa);
             }
@@ -46,7 +46,7 @@ public class JuegoService {
             conn = Conexion.connectar();
             assert conn != null;
             Statement stm = conn.createStatement();
-            String query = "SELECT e.id_etapa, e.nombre AS NombreEtapa, e.descripcion AS DescripcionEtapa, "
+            String query = "SELECT e.id_etapa, e.nombre AS NombreEtapa, e.descripcion AS DescripcionEtapa,e.imagen_url, "
                     + "n.id_nivel, n.nombre AS NombreNivel, n.descripcion AS DescripcionNivel, n.exp "
                     + "FROM Etapas e "
                     + "JOIN Niveles n ON e.id_etapa = n.etapa "
@@ -60,7 +60,7 @@ public class JuegoService {
                 Etapas etapa = etapasMap.get(idEtapa);
 
                 if (etapa == null) {
-                    etapa = new Etapas(idEtapa, res.getString("NombreEtapa"), res.getString("DescripcionEtapa"), res.getString("image_url"));
+                    etapa = new Etapas(idEtapa, res.getString("NombreEtapa"), res.getString("DescripcionEtapa"), res.getString("imagen_url"));
                     etapa.setNiveles(new ArrayList<>());
                     etapasMap.put(idEtapa, etapa);
                 }
