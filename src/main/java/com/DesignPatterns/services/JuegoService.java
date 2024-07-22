@@ -129,7 +129,6 @@ public class JuegoService {
                 int idPregunta = res.getInt("id_pregunta");
                 PreguntasDTO pregunta = preguntasMap.get(idPregunta);
                 if(pregunta == null) {
-                    System.out.println("entro al ciclo");
                     pregunta = new PreguntasDTO();
                     pregunta.setId(idPregunta);
                     pregunta.setPregunta(res.getString("Pregunta"));
