@@ -25,7 +25,7 @@ public class JuegoService {
             ResultSet res = stm.executeQuery(query);
             while (res.next()){
                 Etapas etapa = new Etapas(
-                        res.getInt("id_etapas"),
+                        res.getInt("id_etapa"),
                         res.getString("nombre"),
                         res.getString("descripcion")
                 );

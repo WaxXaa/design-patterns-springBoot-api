@@ -1,54 +1,49 @@
-
-package com.DesignPatterns.services;
+package com.DesignPatterns.services.admin;
 
 import com.DesignPatterns.Conexion.Conexion;
-import com.DesignPatterns.models.*;
-import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AdminService {
-
+public class PreguntaService {
     Connection conn;
+    // Métodos CRUD para la tabla Preguntas
 
-    // Métodos CRUD para la tabla Usuarios
-
-    public int createUsuario(String nombre, String apellido, String email, String contra, String fotoPerfil, int tipo) {
-        int idUsuario = -1;
+    public int createPregunta(String pregunta, String imagenUrl, int nivel, int tipo) {
+        int idPregunta = -1;
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL CreateUsuario('" + nombre + "', '" + apellido + "', '" + email + "', '" + contra + "', '" + fotoPerfil + "', " + tipo + ")";
+            String query = "CALL CreatePregunta('" + pregunta + "', '" + imagenUrl + "', " + nivel + ", " + tipo + ")";
             statement.execute(query, Statement.RETURN_GENERATED_KEYS);
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
-                idUsuario = rs.getInt(1);
+                idPregunta = rs.getInt(1);
             }
             rs.close();
             statement.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return idUsuario;
+        return idPregunta;
     }
 
-    public void readUsuario(int idUsuario) {
+    public void readPregunta(int idPregunta) {
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL ReadUsuario(" + idUsuario + ")";
+            String query = "CALL ReadPregunta(" + idPregunta + ")";
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
-                String nombre = rs.getString("nombre");
-                String apellido = rs.getString("apellido");
-                String email = rs.getString("email");
-                String contra = rs.getString("contra");
-                String fotoPerfil = rs.getString("foto_perfil");
+                String pregunta = rs.getString("pregunta");
+                String imagenUrl = rs.getString("imagen_url");
+                int nivel = rs.getInt("nivel");
                 int tipo = rs.getInt("tipo");
-                System.out.println("Nombre: " + nombre + ", Apellido: " + apellido + ", Email: " + email + ", Contraseña: " + contra + ", Foto de Perfil: " + fotoPerfil + ", Tipo: " + tipo);
+                System.out.println("Pregunta: " + pregunta + ", Imagen URL: " + imagenUrl + ", Nivel: " + nivel + ", Tipo: " + tipo);
             }
             rs.close();
             statement.close();
@@ -59,11 +54,11 @@ public class AdminService {
         }
     }
 
-    public void updateUsuario(int idUsuario, String nombre, String apellido, String email, String contra, String fotoPerfil, int tipo, int exp) {
+    public void updatePregunta(int idPregunta, String pregunta, String imagenUrl, int nivel, int tipo) {
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL UpdateUsuario(" + idUsuario + ", '" + nombre + "', '" + apellido + "', '" + email + "', '" + contra + "', '" + fotoPerfil + "', " + tipo + ", " + exp + ")";
+            String query = "CALL UpdatePregunta(" + idPregunta + ", '" + pregunta + "', '" + imagenUrl + "', " + nivel + ", " + tipo + ")";
             statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
@@ -73,11 +68,11 @@ public class AdminService {
         }
     }
 
-    public void deleteUsuario(int idUsuario) {
+    public void deletePregunta(int idPregunta) {
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL DeleteUsuario(" + idUsuario + ")";
+            String query = "CALL DeletePregunta(" + idPregunta + ")";
             statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
@@ -87,4 +82,3 @@ public class AdminService {
         }
     }
 }
-

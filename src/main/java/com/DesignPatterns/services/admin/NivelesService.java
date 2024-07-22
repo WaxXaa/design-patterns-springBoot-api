@@ -1,54 +1,47 @@
-
-package com.DesignPatterns.services;
+package com.DesignPatterns.services.admin;
 
 import com.DesignPatterns.Conexion.Conexion;
-import com.DesignPatterns.models.*;
-import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AdminService {
-
+public class NivelesService {
     Connection conn;
-
-    // Métodos CRUD para la tabla Usuarios
-
-    public int createUsuario(String nombre, String apellido, String email, String contra, String fotoPerfil, int tipo) {
-        int idUsuario = -1;
+    public int createNivel(String nombre, String descripcion, int etapa, int exp) {
+        int idNivel = -1;
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL CreateUsuario('" + nombre + "', '" + apellido + "', '" + email + "', '" + contra + "', '" + fotoPerfil + "', " + tipo + ")";
+            String query = "CALL CreateNivel('" + nombre + "', '" + descripcion + "', " + etapa + ", " + exp + ")";
             statement.execute(query, Statement.RETURN_GENERATED_KEYS);
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
-                idUsuario = rs.getInt(1);
+                idNivel = rs.getInt(1);
             }
             rs.close();
             statement.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return idUsuario;
+        return idNivel;
     }
 
-    public void readUsuario(int idUsuario) {
+    public void readNivel(int idNivel) {
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL ReadUsuario(" + idUsuario + ")";
+            String query = "CALL ReadNivel(" + idNivel + ")";
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
                 String nombre = rs.getString("nombre");
-                String apellido = rs.getString("apellido");
-                String email = rs.getString("email");
-                String contra = rs.getString("contra");
-                String fotoPerfil = rs.getString("foto_perfil");
-                int tipo = rs.getInt("tipo");
-                System.out.println("Nombre: " + nombre + ", Apellido: " + apellido + ", Email: " + email + ", Contraseña: " + contra + ", Foto de Perfil: " + fotoPerfil + ", Tipo: " + tipo);
+                String descripcion = rs.getString("descripcion");
+                int etapa = rs.getInt("etapa");
+                int exp = rs.getInt("exp");
+                System.out.println("Nombre: " + nombre + ", Descripción: " + descripcion + ", Etapa: " + etapa + ", EXP: " + exp);
             }
             rs.close();
             statement.close();
@@ -59,11 +52,11 @@ public class AdminService {
         }
     }
 
-    public void updateUsuario(int idUsuario, String nombre, String apellido, String email, String contra, String fotoPerfil, int tipo, int exp) {
+    public void updateNivel(int idNivel, String nombre, String descripcion, int etapa, int exp) {
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL UpdateUsuario(" + idUsuario + ", '" + nombre + "', '" + apellido + "', '" + email + "', '" + contra + "', '" + fotoPerfil + "', " + tipo + ", " + exp + ")";
+            String query = "CALL UpdateNivel(" + idNivel + ", '" + nombre + "', '" + descripcion + "', " + etapa + ", " + exp + ")";
             statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
@@ -73,11 +66,11 @@ public class AdminService {
         }
     }
 
-    public void deleteUsuario(int idUsuario) {
+    public void deleteNivel(int idNivel) {
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL DeleteUsuario(" + idUsuario + ")";
+            String query = "CALL DeleteNivel(" + idNivel + ")";
             statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
@@ -86,5 +79,5 @@ public class AdminService {
             throw new RuntimeException(e);
         }
     }
+
 }
-

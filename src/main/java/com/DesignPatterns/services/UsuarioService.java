@@ -122,7 +122,7 @@ public class UsuarioService {
         try (Connection conn = Conexion.connectar()) {
             assert conn != null;
             try (Statement stm = conn.createStatement()) {
-                String query = "SELECT * FROM USUARIOS WHERE id_usuario = " + idUsuario + ";";
+                String query = "SELECT * FROM Usuarios WHERE id_usuario = " + idUsuario + ";";
                 ResultSet res = stm.executeQuery(query);
                 if (res.next()) {
                     return new Usuario(
