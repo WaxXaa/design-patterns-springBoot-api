@@ -1,6 +1,7 @@
 package com.DesignPatterns.services.admin;
 
 import com.DesignPatterns.Conexion.Conexion;
+import com.DesignPatterns.models.Niveles;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,39 +10,36 @@ import java.sql.Statement;
 
 public class NivelesService {
     Connection conn;
-    public int createNivel(String nombre, String descripcion, int etapa, int exp) {
-        int idNivel = -1;
+
+    public int createNivel(String nombre, String descripcion) {
+        int resultado = 0;
         try {
             conn = Conexion.connectar();
-            Statement statement = conn.createStatement();
-            String query = "CALL CreateNivel('" + nombre + "', '" + descripcion + "', " + etapa + ", " + exp + ")";
-            statement.execute(query, Statement.RETURN_GENERATED_KEYS);
-            ResultSet rs = statement.getGeneratedKeys();
-            if (rs.next()) {
-                idNivel = rs.getInt(1);
-            }
-            rs.close();
-            statement.close();
+            assert conn != null;
+            Statement stmt = conn.createStatement();
+            String query = "CALL CrearNivel('" + nombre + "', '" + descripcion + "')";
+            stmt.execute(query);
+            conn.close();
+            return resultado;
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return idNivel;
+        return 0;
     }
 
-    public void readNivel(int idNivel) {
+    public Niveles readNivel(int idNivel) {
+        Niveles nivel = null;
         try {
             conn = Conexion.connectar();
+            String query = "CALL ObtenerNivel(" + idNivel + ")";
             Statement statement = conn.createStatement();
-            String query = "CALL ReadNivel(" + idNivel + ")";
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
                 String nombre = rs.getString("nombre");
                 String descripcion = rs.getString("descripcion");
-                int etapa = rs.getInt("etapa");
-                int exp = rs.getInt("exp");
-                System.out.println("Nombre: " + nombre + ", Descripción: " + descripcion + ", Etapa: " + etapa + ", EXP: " + exp);
+                nivel = new Niveles(idNivel, nombre, descripcion, 0);
             }
             rs.close();
             statement.close();
@@ -50,34 +48,40 @@ public class NivelesService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return nivel;
     }
 
-    public void updateNivel(int idNivel, String nombre, String descripcion, int etapa, int exp) {
+    public int updateNivel(int idNivel, String nombre, String descripcion) {
+        int resultado = 0;
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL UpdateNivel(" + idNivel + ", '" + nombre + "', '" + descripcion + "', " + etapa + ", " + exp + ")";
-            statement.executeUpdate(query);
+            String query = "CALL ActualizarNivel(" + idNivel + ", '" + nombre + "', '" + descripcion + "')";
+            resultado = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return resultado;
     }
 
-    public void deleteNivel(int idNivel) {
+    public int deleteNivel(int idNivel) {
+        int resultado = 0;
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL DeleteNivel(" + idNivel + ")";
-            statement.executeUpdate(query);
+            String query = "CALL EliminarNivel(" + idNivel + ")";
+            resultado = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return resultado;
     }
-
 }
+
+

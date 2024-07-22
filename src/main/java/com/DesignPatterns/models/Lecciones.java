@@ -4,22 +4,19 @@ public class Lecciones {
     private int id;
     private String nombre;
     private String descripcion;
-    private String imagen;
     private String video;
-    private Niveles nivel;
+    private int nivel;
 
-    public Lecciones(int id, String nombre, String descripcion, String imagen, String video, Niveles nivel) {
+    public Lecciones(int id, String nombre, String descripcion, String video, int nivel) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.imagen = imagen;
         this.video = video;
         this.nivel = nivel;
     }
-    public Lecciones(String nombre, String descricion, String imagen, String video, Niveles nivel) {
+    public Lecciones(String nombre, String descripcion, String imagen, String video, int nivel) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.imagen = imagen;
         this.video = video;
         this.nivel = nivel;
     }
@@ -48,14 +45,6 @@ public class Lecciones {
         this.id = id;
     }
 
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
     public String getVideo() {
         return video;
     }
@@ -64,11 +53,11 @@ public class Lecciones {
         this.video = video;
     }
 
-    public Niveles getNivel() {
+    public int getNivel() {
         return nivel;
     }
 
-    public void setNivel(Niveles nivel) {
+    public void setNivel(int nivel) {
         this.nivel = nivel;
     }
 }
