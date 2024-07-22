@@ -43,7 +43,7 @@ public class UsuarioController {
     public ResponseEntity<String> registrarUsuarioController(@RequestBody Usuario usuario) {
         try {
             int resultado = new UsuarioService().crearUsuario(usuario);
-            if(resultado == 0) {throw new Exception("no se puedo actualizar el usuario");}
+            if(resultado == 0) {throw new Exception("no se puedo registrar el usuario");}
             return new ResponseEntity<String>("usuario registrado exitosamente", HttpStatus.CREATED);// http status 201
         }catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage()+ " no se registro",HttpStatus.INTERNAL_SERVER_ERROR);
@@ -53,7 +53,7 @@ public class UsuarioController {
     public ResponseEntity<String> actualizarUsuarioController(@RequestBody Usuario usuario) {
         try {
             int resultado = new UsuarioService().actualizarUsuario(usuario);
-            if(resultado == 0) {throw new Exception("no se puedo crear el usuario");}
+            if(resultado == 0) {throw new Exception("no se puedo Actualizar el usuario");}
             return new ResponseEntity<String>("usuario actualizado exitosamente", HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);

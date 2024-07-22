@@ -27,7 +27,8 @@ public class JuegoService {
                 Etapas etapa = new Etapas(
                         res.getInt("id_etapa"),
                         res.getString("nombre"),
-                        res.getString("descripcion")
+                        res.getString("descripcion"),
+                        res.getString("image_url")
                 );
                 listaEtapas.add(etapa);
             }
@@ -59,7 +60,7 @@ public class JuegoService {
                 Etapas etapa = etapasMap.get(idEtapa);
 
                 if (etapa == null) {
-                    etapa = new Etapas(idEtapa, res.getString("NombreEtapa"), res.getString("DescripcionEtapa"));
+                    etapa = new Etapas(idEtapa, res.getString("NombreEtapa"), res.getString("DescripcionEtapa"), res.getString("image_url"));
                     etapa.setNiveles(new ArrayList<>());
                     etapasMap.put(idEtapa, etapa);
                 }
