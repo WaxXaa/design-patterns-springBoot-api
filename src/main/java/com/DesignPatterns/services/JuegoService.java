@@ -81,6 +81,30 @@ public class JuegoService {
         }
     }
 
+    public Lecciones Obtener_Leccion(int idLeccion) {
+        Lecciones leccion = null;
+        try {
+            conn = Conexion.connectar();
+            String query = "CALL ObtenerLeccion(" + idLeccion + ")";
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()) {
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                String video_url = rs.getString("video_url");
+                int nivel = rs.getInt("nivel");
+                leccion = new Lecciones(idLeccion, nombre, descripcion, video_url, nivel);
+            }
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return leccion;
+    }
+
 
     public List<PreguntasDTO> obtenerPreguntas(int idNivel) throws Exception{
         try {
