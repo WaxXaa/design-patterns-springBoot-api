@@ -1,10 +1,13 @@
 package com.DesignPatterns.controllers;
 
 import com.DesignPatterns.models.Etapas;
+import com.DesignPatterns.models.Lecciones;
 import com.DesignPatterns.models.PreguntasDTO;
 import com.DesignPatterns.models.Usuario;
 import com.DesignPatterns.services.JuegoService;
 import com.DesignPatterns.services.UsuarioService;
+import com.DesignPatterns.services.admin.LeccionesService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +32,18 @@ public class JuegoController {
             return new ResponseEntity<List<Etapas>>(etapasNiveles,HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("etapas/lecciones/{idLeccion}")
+    public ResponseEntity<Lecciones> obtenerLeccionController(@PathVariable("idLeccion") int idLeccion) {
+        try {
+            Lecciones leccion = new LeccionesService().readLeccion(idLeccion);
+            if (leccion == null) {
+                throw new Exception("No se pudo obtener la información de la lección");
+            }
+            return new ResponseEntity<>(leccion, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>((Lecciones) null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @GetMapping("preguntas/nivel/{idNivel}")
