@@ -5,19 +5,19 @@ import java.util.List;
 public class PreguntasDTO {
     private int id;
     private String pregunta;
+    private int tipo;
     private String foto;
     private int nivel;
-    private int tipo;
     private List<RespuestasDTO> respuestas;
 
 
     public PreguntasDTO() {}
-    public PreguntasDTO(int idPregunta, String pregunta, String imagenUrl, int nivel, int tipo) {
+    public PreguntasDTO(int idPregunta, String pregunta, int tipo, String imagenUrl, int nivel) {
         this.id = idPregunta;
         this.pregunta = pregunta;
-        this.foto = imagenUrl;
-        this.nivel = nivel;
         this.tipo = tipo;
+        this.foto = imagenUrl;
+        this.nivel = nivel;        
     }
     public int getId() {
         return id;
