@@ -60,7 +60,7 @@ FROM openjdk:20
 EXPOSE 8080
 
 # Copiar el archivo JAR construido desde la etapa anterior
-COPY --from=build /app/build/libs/DB-0.0.1-SNAPSHOT.jar /app/DB-0.0.1-SNAPSHOT.jar
+COPY --from=build build/libs/DesignPatterns-Game-0.0.1-SNAPSHOT.jar /app/DB-0.0.1-SNAPSHOT.jar
 
 # Establecer el punto de entrada para ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "/app/DB-0.0.1-SNAPSHOT.jar"]
