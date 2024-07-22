@@ -42,7 +42,7 @@
 
 
 # Usar una imagen base con JDK 8 y Gradle
-FROM gradle:20-jdk20 AS build
+FROM gradle:8.8-jdk20 AS build
 
 # Establecer un directorio de trabajo
 WORKDIR /app
