@@ -183,7 +183,7 @@ public class UsuarioService {
 
     public List<Usuario> listarRanking() throws Exception {
         List<Usuario> usuarios = new ArrayList<>();
-        String query = "SELECT * FROM Usuarios ORDER BY exp DESC LIMIT 10";
+        String query = "SELECT * FROM Usuarios WHERE tipo = 1 ORDER BY exp DESC LIMIT 10";
 
         try {Connection conn = Conexion.connectar();
             assert conn != null;
