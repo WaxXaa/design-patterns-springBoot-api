@@ -1,18 +1,16 @@
 package com.DesignPatterns.models;
 
-public class Respuesta {
+public class Respuestas {
     private int id;
     private String respuesta;
-    private String foto;
     private boolean correcta;
     private int pregunta;
 
-    public Respuesta() {}
+    public Respuestas() {}
 
-    public Respuesta(int idRespuesta, String respuesta, String imagenUrl, boolean correcta, int pregunta) {
+    public Respuestas(int idRespuesta, String respuesta, boolean correcta, int pregunta) {
         this.id = idRespuesta;
         this.respuesta = respuesta;
-        this.foto = imagenUrl;
         this.correcta = correcta;
         this.pregunta = pregunta;
     }
@@ -31,14 +29,6 @@ public class Respuesta {
 
     public void setRespuesta(String respuesta) {
         this.respuesta = respuesta;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String imagenUrl) {
-        this.foto = imagenUrl;
     }
 
     public boolean getCorrecta() {

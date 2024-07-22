@@ -1,26 +1,26 @@
 package com.DesignPatterns.services.admin;
 
 import com.DesignPatterns.Conexion.Conexion;
-import com.DesignPatterns.models.Etapas;
+import com.DesignPatterns.models.Respuestas;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class EtapasService {
+public class RespuestasService {
     Connection conn;
-    public int createEtapa(String nombre, String descripcion) {
+
+    public int createRespuesta(String respuesta, boolean correcta, int pregunta) {
         int resultado = 0;
         try {
             conn = Conexion.connectar();
             assert conn != null;
             Statement stmt = conn.createStatement();
-            String query = "CALL CrearEtapa('" + nombre + "', '" + descripcion + "')";
+            String query = "CALL CrearRespuesta('" + respuesta + ", " + correcta + ", " + pregunta + ")";
             stmt.execute(query);
             conn.close();
             return resultado;
-
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -29,18 +29,18 @@ public class EtapasService {
         return 0;
     }
 
-        public Etapas readEtapa(int idEtapa) {
-        Etapas etapa = null;
+    public Respuestas readRespuesta(int idRespuesta) {
+        Respuestas respuesta = null;
         try {
             conn = Conexion.connectar();
-            String query = "CALL ObtenerEtapa(" + idEtapa + ")";
+            String query = "CALL ObtenerRespuesta(" + idRespuesta + ")";
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
-                String nombre = rs.getString("nombre");
-                String descripcion = rs.getString("descripcion");
-                String image_url = rs.getString("image_url");
-                etapa = new Etapas(idEtapa, nombre, descripcion,image_url );
+                String respuestaText = rs.getString("respuesta");
+                boolean correcta = rs.getBoolean("correcta");
+                int pregunta = rs.getInt("pregunta");
+                respuesta = new Respuestas(idRespuesta, respuestaText, correcta, pregunta);
             }
             rs.close();
             statement.close();
@@ -49,15 +49,15 @@ public class EtapasService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return etapa;
+        return respuesta;
     }
 
-    public int updateEtapa(int idEtapa, String nombre, String descripcion, String image_url) {
+    public int updateRespuesta(int idRespuesta, String respuesta, boolean correcta, int pregunta) {
         int resultado = 0;
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL ActualizarEtapa(" + idEtapa + ", '" + nombre + "', '" + descripcion + "','" + image_url + "')";
+            String query = "CALL ActualizarRespuesta(" + idRespuesta + ", '" + respuesta + "', " + correcta + ", " + pregunta + ")";
             resultado = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
@@ -68,12 +68,12 @@ public class EtapasService {
         return resultado;
     }
 
-    public int deleteEtapa(int idEtapa) {
+    public int deleteRespuesta(int idRespuesta) {
         int resultado = 0;
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL EliminarEtapa(" + idEtapa + ")";
+            String query = "CALL EliminarRespuesta(" + idRespuesta + ")";
             resultado = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {

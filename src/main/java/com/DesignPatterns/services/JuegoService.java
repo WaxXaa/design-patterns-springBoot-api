@@ -113,7 +113,7 @@ public class JuegoService {
                     pregunta.setFoto(res.getString("ImagenPregunta"));
                     pregunta.setRespuestas(new ArrayList<>());
                 }
-                RespuestasDTO respuesta = RespuestasFactory.crearRespuesta(res);
+                Respuestas respuesta = RespuestasFactory.crearRespuesta(res);
                 pregunta.getRespuestas().add(respuesta);
                 preguntasMap.put(pregunta.getId(), pregunta);
 

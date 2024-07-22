@@ -8,7 +8,7 @@ public class PreguntasDTO {
     private int tipo;
     private String foto;
     private int nivel;
-    private List<RespuestasDTO> respuestas;
+    private List<Respuestas> respuestas;
 
 
     public PreguntasDTO() {}
@@ -55,11 +55,11 @@ public class PreguntasDTO {
         this.tipo = tipo;
     }
 
-    public List<RespuestasDTO> getRespuestas() {
+    public List<Respuestas> getRespuestas() {
         return respuestas;
     }
 
-    public void setRespuestas(List<RespuestasDTO> respuestas) {
+    public void setRespuestas(List<Respuestas> respuestas) {
         this.respuestas = respuestas;
     }
 }
