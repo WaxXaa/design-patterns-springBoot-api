@@ -64,7 +64,7 @@ public class JuegoService {
                     etapasMap.put(idEtapa, etapa);
                 }
 
-                Niveles nivel = new Niveles(res.getInt("id_nivel"), res.getString("NombreNivel"), res.getString("DescripciionNivel"), res.getInt("exp"));
+                Niveles nivel = new Niveles(res.getInt("id_nivel"), res.getString("NombreNivel"), res.getString("DescripcionNivel"), res.getInt("exp"));
 
 
                 etapa.getNiveles().add(nivel);
@@ -92,17 +92,11 @@ public class JuegoService {
                     "    p.imagen_url AS ImagenPregunta,\n" +
                     "    r.id_respuesta AS IdRespuesta,\n" +
                     "    r.respuesta AS Respuesta,\n" +
-                    "    r.imagenURL AS ImagenRespuesta,\n" +
-                    "    r.correcta AS Correcta,\n" +
-                    "    o.respuesta AS RespuestaOrdenada,\n" +
-                    "    o.imagenURL AS ImagenOrdenada,\n" +
-                    "    o.orden AS Orden\n" +
+                    "    r.correcta AS Correcta\n" +
                     "FROM\n" +
                     "    Preguntas p\n" +
                     "    LEFT JOIN Respuestas r ON p.id_pregunta = r.pregunta\n" +
-                    "    LEFT JOIN Orden_Respuestas o ON p.id_pregunta = o.pregunta\n" +
-                    "WHERE\n" +
-                    "    p.nivel = "+idNivel+";";
+                    "WHERE p.nivel = "+idNivel+";";
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(query);
             Map<Integer, PreguntasDTO> preguntasMap = new HashMap<>();
@@ -110,6 +104,7 @@ public class JuegoService {
                 int idPregunta = res.getInt("id_pregunta");
                 PreguntasDTO pregunta = preguntasMap.get(idPregunta);
                 if(pregunta == null) {
+                    System.out.println("entro al ciclo");
                     pregunta = new PreguntasDTO();
                     pregunta.setId(idPregunta);
                     pregunta.setPregunta(res.getString("Pregunta"));
@@ -117,8 +112,10 @@ public class JuegoService {
                     pregunta.setFoto(res.getString("ImagenPregunta"));
                     pregunta.setRespuestas(new ArrayList<>());
                 }
-                RespuestasDTO respuesta = RespuestasFactory.crearRespuesta(res,idPregunta);
+                RespuestasDTO respuesta = RespuestasFactory.crearRespuesta(res);
                 pregunta.getRespuestas().add(respuesta);
+                preguntasMap.put(pregunta.getId(), pregunta);
+
             }
             conn.close();
             stm.close();
@@ -131,14 +128,19 @@ public class JuegoService {
     }
 
 
-  /*  public int actualizarExpUsuario(int idUsuario){
+    public int actualizarExpUsuario(int idUsuario) throws Exception{
+        int resultado = 0;
         try {
-
+        conn = Conexion.connectar();
+        Statement stm = conn.createStatement();
+        String query = "CALL incrementar_Exp("+idUsuario+");";
+        resultado = stm.executeUpdate(query);
+        return resultado;
         } catch (SQLException e) {
-            throw new Exception();
+            throw new DataBaseException(e.getMessage());
         } catch (Exception e) {
-
+            throw new Exception(e.getMessage());
         }
-    }*/
+    }
 
 }

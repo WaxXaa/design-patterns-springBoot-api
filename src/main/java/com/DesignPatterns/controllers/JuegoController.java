@@ -2,12 +2,12 @@ package com.DesignPatterns.controllers;
 
 import com.DesignPatterns.models.Etapas;
 import com.DesignPatterns.models.PreguntasDTO;
+import com.DesignPatterns.models.Usuario;
 import com.DesignPatterns.services.JuegoService;
+import com.DesignPatterns.services.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,6 +38,16 @@ public class JuegoController {
             return new ResponseEntity<>(listaPreguntasNivel, HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PutMapping("exp/{idUsuario}")
+    public ResponseEntity<String> actualizarExpController(@PathVariable("idUsuario") int idUsuario) {
+        try {
+            int resultado = new JuegoService().actualizarExpUsuario(idUsuario);
+            if(resultado == 0) {throw new Exception("no se pudo actualizad");}
+            return new ResponseEntity<String>("usuario actualizado exitosamente", HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
