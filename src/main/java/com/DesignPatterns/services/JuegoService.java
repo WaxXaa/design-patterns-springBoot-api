@@ -95,12 +95,12 @@ public class JuegoService {
                     "    r.imagenURL AS ImagenRespuesta,\n" +
                     "    r.correcta AS Correcta,\n" +
                     "    o.respuesta AS RespuestaOrdenada,\n" +
+                    "    o.imagenURL AS ImagenOrdenada,\n" +
                     "    o.orden AS Orden\n" +
                     "FROM\n" +
                     "    Preguntas p\n" +
-                    "    JOIN Tipo_Preguntas tp ON p.tipo = tp.id_tipo\n" +
-                    "    LEFT JOIN Respuestas r ON p.id_pregunta = r.pregunta AND tp.tipo IN ('Escoge la respuesta correcta', 'Cierto y Falso')\n" +
-                    "    LEFT JOIN Orden_Respuestas o ON p.id_pregunta = o.pregunta AND tp.tipo = 'Ordena la respuesta'\n" +
+                    "    LEFT JOIN Respuestas r ON p.id_pregunta = r.pregunta\n" +
+                    "    LEFT JOIN Orden_Respuestas o ON p.id_pregunta = o.pregunta\n" +
                     "WHERE\n" +
                     "    p.nivel = "+idNivel+";";
             Statement stm = conn.createStatement();
