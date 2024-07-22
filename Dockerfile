@@ -51,7 +51,7 @@ WORKDIR /app
 COPY . /app
 
 # Ejecutar Gradle para construir el proyecto
-RUN ./gradlew clean build
+RUN gradle build
 
 # Crear una nueva imagen basada en OpenJDK 8
 FROM openjdk:20
