@@ -50,12 +50,11 @@ WORKDIR /app
 # Copiar archivos de tu proyecto al directorio de trabajo
 COPY . /app
 
+# Ejecutar Gradle para construir el proyecto
+RUN gradle clean build --no-daemon --stacktrace
+
 # Crear una nueva imagen basada en OpenJDK 8
 FROM openjdk:20
-# Ejecutar Gradle para construir el proyecto
-RUN gradle build
-
-
 
 # Exponer el puerto que utilizará la aplicación
 EXPOSE 8080
