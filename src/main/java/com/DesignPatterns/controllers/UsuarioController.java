@@ -111,14 +111,14 @@ public class UsuarioController {
         }
     }
 
-        @GetMapping("users/ayuda/obtener/{id}")
-    public ResponseEntity<Ayuda> obtenerAyuda(@PathVariable("id") int id) {
+        @GetMapping("users/ayuda")
+    public ResponseEntity<List<Ayuda>> obtenerAyuda() {
         try {
-            Ayuda ayuda = new AyudaService().readAyuda(id);
+            List<Ayuda> ayuda= new AyudaService().readAyuda();
             if (ayuda == null) {
                 throw new Exception("No se pudo obtener la información de la ayuda");
             }
-            return new ResponseEntity<>(ayuda, HttpStatus.OK);
+            return new ResponseEntity<List<Ayuda>>(ayuda, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -7,48 +7,35 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AyudaService {
     Connection conn;
 
-    public int createAyuda(String pregunta, String respuesta) {
-        int resultado = 0;
+    public List<Ayuda> readAyuda() throws Exception{
+        List<Ayuda> lAyudas = new ArrayList<>();
         try {
             conn = Conexion.connectar();
             assert conn != null;
             Statement stmt = conn.createStatement();
-            String query = "CALL CrearAyuda('" + pregunta + "', '" + respuesta + "')";
-            stmt.execute(query);
-            conn.close();
-            resultado = 1;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return resultado;
-    }
-
-    public Ayuda readAyuda(int id) {
-        Ayuda ayuda = null;
-        try {
-            conn = Conexion.connectar();
-            String query = "CALL ObtenerAyuda(" + id + ")";
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(query);
-            if (rs.next()) {
-                String pregunta = rs.getString("pregunta");
-                String respuesta = rs.getString("respuesta");
-                ayuda = new Ayuda(id, pregunta, respuesta);
+            String query = "SELECT * FROM Ayuda;";
+            ResultSet res=stmt.executeQuery(query);
+            while (res.next()) {
+                Ayuda ayuda = new Ayuda();
+                ayuda.setId(res.getInt("id"));
+                ayuda.setPregunta(res.getString("pregunta"));
+                ayuda.setRespuesta(res.getString("respuesta"));
+                lAyudas.add(ayuda);
             }
-            rs.close();
-            statement.close();
+            conn.close();
+            return lAyudas;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new Exception(e.getMessage());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new Exception(e.getMessage());
         }
-        return ayuda;
+    
     }
 
     public int updateAyuda(int id, String pregunta, String respuesta) {
