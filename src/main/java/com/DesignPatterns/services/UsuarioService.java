@@ -172,8 +172,6 @@ public class UsuarioService {
             }
             conn.close();
             return null;
-
-
         } catch (SQLException e) {
             throw new DataBaseException(e.getMessage());
         } catch (Exception e) {

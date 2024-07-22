@@ -1,6 +1,7 @@
 package com.DesignPatterns.services.admin;
 
 import com.DesignPatterns.Conexion.Conexion;
+import com.DesignPatterns.models.Etapas;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -28,7 +29,8 @@ public class EtapasService {
         return 0;
     }
 
-    public void readEtapa(int idEtapa) {
+        public Etapas readEtapa(int idEtapa) {
+        Etapas etapa = null;
         try {
             conn = Conexion.connectar();
             String query = "CALL ReadEtapa(" + idEtapa + ")";
@@ -37,7 +39,8 @@ public class EtapasService {
             if (rs.next()) {
                 String nombre = rs.getString("nombre");
                 String descripcion = rs.getString("descripcion");
-                System.out.println("Nombre: " + nombre + ", Descripción: " + descripcion);
+                String image_url = rs.getString("image_url");
+                etapa = new Etapas(idEtapa, nombre, descripcion,image_url );
             }
             rs.close();
             statement.close();
@@ -46,33 +49,38 @@ public class EtapasService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return etapa;
     }
 
-    public void updateEtapa(int idEtapa, String nombre, String descripcion) {
+    public int updateEtapa(int idEtapa, String nombre, String descripcion, String image_url) {
+        int resultado = 0;
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL UpdateEtapa(" + idEtapa + ", '" + nombre + "', '" + descripcion + "')";
-            statement.executeUpdate(query);
+            String query = "CALL UpdateEtapa(" + idEtapa + ", '" + nombre + "', '" + descripcion + "','" + image_url + "')";
+            resultado = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return resultado;
     }
 
-    public void deleteEtapa(int idEtapa) {
+    public int deleteEtapa(int idEtapa) {
+        int resultado = 0;
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
             String query = "CALL DeleteEtapa(" + idEtapa + ")";
-            statement.executeUpdate(query);
+            resultado = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return resultado;
     }
 }
