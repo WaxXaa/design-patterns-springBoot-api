@@ -33,7 +33,7 @@ public class AyudaService {
         Ayuda ayuda = null;
         try {
             conn = Conexion.connectar();
-            String query = "CALL ReadAyuda(" + id + ")";
+            String query = "CALL ObtenerAyuda(" + id + ")";
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
@@ -56,7 +56,7 @@ public class AyudaService {
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL UpdateAyuda(" + id + ", '" + pregunta + "', '" + respuesta + "')";
+            String query = "CALL ActualizarAyuda(" + id + ", '" + pregunta + "', '" + respuesta + "')";
             resultado = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
@@ -72,7 +72,7 @@ public class AyudaService {
         try {
             conn = Conexion.connectar();
             Statement statement = conn.createStatement();
-            String query = "CALL DeleteAyuda(" + id + ")";
+            String query = "CALL EliminarAyuda(" + id + ")";
             resultado = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {

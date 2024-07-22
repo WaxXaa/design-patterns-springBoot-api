@@ -1,8 +1,11 @@
 package com.DesignPatterns.controllers;
 
 import com.DesignPatterns.exceptions.DataBaseException;
+import com.DesignPatterns.models.Ayuda;
 import com.DesignPatterns.models.Usuario;
 import com.DesignPatterns.services.UsuarioService;
+import com.DesignPatterns.services.admin.AyudaService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -103,6 +106,19 @@ public class UsuarioController {
         try {
             List<Usuario> usuarios = new UsuarioService().listarRanking();
             return new ResponseEntity<>(usuarios, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+        @GetMapping("users/ayuda/obtener/{id}")
+    public ResponseEntity<Ayuda> obtenerAyuda(@PathVariable("id") int id) {
+        try {
+            Ayuda ayuda = new AyudaService().readAyuda(id);
+            if (ayuda == null) {
+                throw new Exception("No se pudo obtener la información de la ayuda");
+            }
+            return new ResponseEntity<>(ayuda, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

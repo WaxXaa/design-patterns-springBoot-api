@@ -2,6 +2,7 @@ package com.DesignPatterns.services;
 
 import com.DesignPatterns.Conexion.Conexion;
 import com.DesignPatterns.exceptions.DataBaseException;
+import com.DesignPatterns.models.Ayuda;
 import com.DesignPatterns.models.Usuario;
 
 import java.sql.*;
@@ -223,5 +224,27 @@ public class UsuarioService {
         catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+    }
+
+        public Ayuda obtenerAyuda(int id) {
+        Ayuda ayuda = null;
+        try {
+            conn = Conexion.connectar();
+            String query = "CALL ObtenerAyuda(" + id + ")";
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()) {
+                String pregunta = rs.getString("pregunta");
+                String respuesta = rs.getString("respuesta");
+                ayuda = new Ayuda(id, pregunta, respuesta);
+            }
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return ayuda;
     }
 }
