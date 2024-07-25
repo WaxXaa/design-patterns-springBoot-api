@@ -9,10 +9,10 @@ import java.sql.SQLException;
 public class Conexion {
     static public Connection connectar() throws Exception{
         try {
-            Class.forName("org.mariadb.jdbc.Driver");
-            String url = "jdbc:mariadb://mariadb-17648-0.cloudclusters.net:17664/manitas";
-            String user = "hampao";
-            String pass = "3siumai1$";
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String url = System.getenv("DB_URL");
+            String user = System.getenv("DB_USER_NAME");
+            String pass = System.getenv("DB_PASSWORD");
             return DriverManager.getConnection(url,user, pass);
         } catch (ClassNotFoundException e) {
             throw new Exception(e.getMessage() + " no se pudo cargar el driver ");
