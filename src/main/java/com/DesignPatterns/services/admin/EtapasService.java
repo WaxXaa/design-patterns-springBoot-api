@@ -52,7 +52,7 @@ public class EtapasService {
         return etapa;
     }
 
-    public int updateEtapa(int idEtapa, String nombre, String descripcion, String image_url) {
+    public int updateEtapa(int idEtapa, String nombre, String descripcion, String image_url) throws Exception {
         int resultado = 0;
         try {
             conn = Conexion.connectar();
@@ -61,7 +61,7 @@ public class EtapasService {
             resultado = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new Exception(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

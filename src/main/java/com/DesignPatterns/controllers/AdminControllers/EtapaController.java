@@ -1,5 +1,7 @@
 package com.DesignPatterns.controllers.AdminControllers;
 
+import com.DesignPatterns.models.Ayuda;
+import com.DesignPatterns.services.admin.AyudaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -40,7 +43,8 @@ public class EtapaController {
         }
     }
 
-    @PutMapping("admin/etapas/actualizar")
+
+    @PutMapping("admin/etapas/actualizar/}")
     public ResponseEntity<String> actualizarEtapasController(@RequestBody Etapas etapa) {
         try {
             int resultado = new EtapasService().updateEtapa(etapa.getId(), etapa.getNombre(),etapa.getDescripcion(), etapa.getImage_url());

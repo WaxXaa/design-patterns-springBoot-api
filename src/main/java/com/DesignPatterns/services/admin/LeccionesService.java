@@ -1,6 +1,7 @@
 package com.DesignPatterns.services.admin;
 
 import com.DesignPatterns.Conexion.Conexion;
+import com.DesignPatterns.exceptions.DataBaseException;
 import com.DesignPatterns.models.Lecciones;
 
 import java.sql.Connection;
@@ -11,7 +12,7 @@ import java.sql.Statement;
 public class LeccionesService {
     Connection conn;
 
-    public int createLeccion(String nombre, String descripcion, String video_url, int nivel) {
+    public int createLeccion(String nombre, String descripcion, String video_url, int nivel) throws Exception {
         int resultado = 0;
         try {
             conn = Conexion.connectar();
@@ -22,14 +23,13 @@ public class LeccionesService {
             conn.close();
             return resultado;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataBaseException(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return 0;
     }
 
-    public Lecciones readLeccion(int idLeccion) {
+    public Lecciones readLeccion(int idLeccion) throws Exception {
         Lecciones leccion = null;
         try {
             conn = Conexion.connectar();
@@ -46,14 +46,14 @@ public class LeccionesService {
             rs.close();
             statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataBaseException(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return leccion;
     }
 
-    public int updateLeccion(int idLeccion, String nombre, String descripcion, String video_url, int nivel) {
+    public int updateLeccion(int idLeccion, String nombre, String descripcion, String video_url, int nivel) throws Exception {
         int resultado = 0;
         try {
             conn = Conexion.connectar();
@@ -62,14 +62,14 @@ public class LeccionesService {
             resultado = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataBaseException(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return resultado;
     }
 
-    public int deleteLeccion(int idLeccion) {
+    public int deleteLeccion(int idLeccion) throws Exception{
         int resultado = 0;
         try {
             conn = Conexion.connectar();
@@ -78,7 +78,7 @@ public class LeccionesService {
             resultado = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataBaseException(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -39,35 +39,16 @@
 
 
 
-
-#
-## Usar una imagen base con JDK 8 y Gradle
-FROM gradle:8.8-jdk17 AS build
-#
-## Establecer un directorio de trabajo
+FROM gradle:jdk20 AS build
 WORKDIR /app
-#
-## Copiar archivos de tu proyecto al directorio de trabajo
-COPY . /app
-#
-## Ejecutar Gradle para construir el proyecto
+COPY . .
 RUN gradle clean build
-#
-## Crear una nueva imagen basada en OpenJDK 8
+
 FROM openjdk:20
-#
-## Exponer el puerto que utilizará la aplicación
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar app.jar
 EXPOSE 8080
-#
-## Copiar el archivo JAR construido desde la etapa anterior
-COPY --from=build build/libs/DesignPatterns-Game-0.0.1-SNAPSHOT.jar /app/DB-0.0.1-SNAPSHOT.jar
-#
-## Establecer el punto de entrada para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "/app/DB-0.0.1-SNAPSHOT.jar"]
-#
-#
-
-
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
 
 
