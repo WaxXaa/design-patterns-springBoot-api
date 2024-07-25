@@ -44,7 +44,7 @@ public class EtapaController {
     }
 
 
-    @PutMapping("admin/etapas/actualizar/}")
+    @PutMapping("admin/etapas/actualizar/")
     public ResponseEntity<String> actualizarEtapasController(@RequestBody Etapas etapa) {
         try {
             int resultado = new EtapasService().updateEtapa(etapa.getId(), etapa.getNombre(),etapa.getDescripcion(), etapa.getImage_url());
